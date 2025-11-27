@@ -1,0 +1,68 @@
+.task-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    cursor: grab;
+    color: white;
+}
+
+.task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.task-card.dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+}
+
+.task-card-header {
+    margin-bottom: 8px;
+}
+
+.task-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    word-wrap: break-word;
+}
+
+.task-description {
+    margin: 8px 0;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+.task-card-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.task-order {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}
+
+/* Variaciones de color para diferentes columnas */
+.task-card.column-todo {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.task-card.column-inprogress {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.task-card.column-done {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}

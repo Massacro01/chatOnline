@@ -1,0 +1,57 @@
+### IMPORTANTE: PRIMERO DEBES HACER LOGIN EN Auth.API PARA OBTENER EL TOKEN JWT
+
+### 1. Registrar Usuario en Auth.API (Puerto 5000)
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "Test User",
+  "email": "test@example.com",
+  "password": "Password123!"
+}
+
+###
+
+### 2. Login en Auth.API (GUARDA EL TOKEN)
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "Password123!"
+}
+
+###
+### --- AHORA USA EL TOKEN EN LAS SIGUIENTES PETICIONES A Boards.API (Puerto 5001) ---
+###
+
+### 3. Crear Tablero (REEMPLAZA <TOKEN> con el token JWT obtenido)
+POST http://localhost:5001/api/boards
+Content-Type: application/json
+Authorization: Bearer <TOKEN>
+
+{
+  "title": "Mi Primer Tablero Kanban"
+}
+
+###
+
+### 4. Obtener Tableros del Usuario
+GET http://localhost:5001/api/boards
+Authorization: Bearer <TOKEN>
+
+###
+
+### 5. Crear Segundo Tablero
+POST http://localhost:5001/api/boards
+Content-Type: application/json
+Authorization: Bearer <TOKEN>
+
+{
+  "title": "Proyecto Web App"
+}
+
+###
+
+### 6. Intentar Acceder SIN Token (DEBE FALLAR con 401)
+GET http://localhost:5001/api/boards

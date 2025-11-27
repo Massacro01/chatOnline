@@ -1,0 +1,113 @@
+### IMPORTANTE: PRIMERO DEBES HACER LOGIN EN Auth.API PARA OBTENER EL TOKEN JWT
+
+### 1. Registrar Usuario en Auth.API (Puerto 5000)
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "Kanban User",
+  "email": "kanban@example.com",
+  "password": "Password123!"
+}
+
+###
+
+### 2. Login en Auth.API (GUARDA EL TOKEN)
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "kanban@example.com",
+  "password": "Password123!"
+}
+
+###
+### --- AHORA USA EL TOKEN EN LAS SIGUIENTES PETICIONES A Tasks.API (Puerto 5002) ---
+### --- REEMPLAZA <TOKEN> con el token JWT obtenido ---
+###
+
+### 3. Crear Tarea (REEMPLAZA <BOARD_ID> y <COLUMN_ID> con IDs reales de Boards.API)
+POST http://localhost:5002/api/tasks
+Content-Type: application/json
+Authorization: Bearer <TOKEN>
+
+{
+  "boardId": "<BOARD_ID>",
+  "columnId": "<COLUMN_ID>",
+  "title": "Implementar Login",
+  "description": "Crear página de login con validación",
+  "order": 1
+}
+
+###
+
+### 4. Crear Segunda Tarea
+POST http://localhost:5002/api/tasks
+Content-Type: application/json
+Authorization: Bearer <TOKEN>
+
+{
+  "boardId": "<BOARD_ID>",
+  "columnId": "<COLUMN_ID>",
+  "title": "Diseñar Dashboard",
+  "description": "Crear wireframes del dashboard principal",
+  "order": 2
+}
+
+###
+
+### 5. Obtener Tareas de un Tablero (REEMPLAZA <BOARD_ID>)
+GET http://localhost:5002/api/tasks/board/<BOARD_ID>
+Authorization: Bearer <TOKEN>
+
+###
+
+### 6. Mover Tarea a Otra Columna (REEMPLAZA <TASK_ID> y <TARGET_COLUMN_ID>)
+PUT http://localhost:5002/api/tasks/<TASK_ID>/move
+Content-Type: application/json
+Authorization: Bearer <TOKEN>
+
+{
+  "targetColumnId": "<TARGET_COLUMN_ID>",
+  "newOrder": 1
+}
+
+###
+
+### 7. Actualizar Tarea (REEMPLAZA <TASK_ID>, <BOARD_ID>, <COLUMN_ID>)
+PUT http://localhost:5002/api/tasks/<TASK_ID>
+Content-Type: application/json
+Authorization: Bearer <TOKEN>
+
+{
+  "boardId": "<BOARD_ID>",
+  "columnId": "<COLUMN_ID>",
+  "title": "Implementar Login con OAuth",
+  "description": "Crear página de login con validación y soporte OAuth",
+  "order": 1
+}
+
+###
+
+### 8. Eliminar Tarea (REEMPLAZA <TASK_ID>)
+DELETE http://localhost:5002/api/tasks/<TASK_ID>
+Authorization: Bearer <TOKEN>
+
+###
+
+### 9. Intentar Acceder SIN Token (DEBE FALLAR con 401)
+GET http://localhost:5002/api/tasks/board/00000000-0000-0000-0000-000000000000
+
+###
+
+### NOTAS SOBRE SIGNALR:
+### Para probar SignalR en tiempo real, necesitarás un cliente frontend que:
+### 1. Se conecte a: ws://localhost:5002/hubs/kanban?access_token=<TOKEN>
+### 2. Llame al método: JoinBoard(boardId)
+### 3. Escuche los eventos: TaskCreated, TaskMoved, TaskUpdated, TaskDeleted
+### 
+### Eventos SignalR que se disparan:
+### - TaskCreated: Cuando se crea una tarea (POST /api/tasks)
+### - TaskMoved: Cuando se mueve una tarea (PUT /api/tasks/{id}/move)
+### - TaskUpdated: Cuando se actualiza una tarea (PUT /api/tasks/{id})
+### - TaskDeleted: Cuando se elimina una tarea (DELETE /api/tasks/{id})

@@ -1,0 +1,33 @@
+### Registro de Usuario
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "Juan Pérez",
+  "email": "juan.perez@example.com",
+  "password": "Password123"
+}
+
+###
+
+### Intentar Registrar Usuario Duplicado (Debe fallar)
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "María García",
+  "email": "juan.perez@example.com",
+  "password": "Password456"
+}
+
+###
+
+### Registro con Email Inválido (Debe fallar)
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "Pedro López",
+  "email": "email-invalido",
+  "password": "Password789"
+}

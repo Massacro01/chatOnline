@@ -1,0 +1,66 @@
+### Registro de Usuario (CON VALIDACIÓN FUERTE)
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "Juan Pérez",
+  "email": "juan.perez@example.com",
+  "password": "Password123!"
+}
+
+###
+
+### Registro con Contraseña Débil (DEBE FALLAR)
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "María García",
+  "email": "maria.garcia@example.com",
+  "password": "123456"
+}
+
+###
+
+### Login Exitoso
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "juan.perez@example.com",
+  "password": "Password123!"
+}
+
+###
+
+### Login con Contraseña Incorrecta (DEBE FALLAR)
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "juan.perez@example.com",
+  "password": "wrongpassword"
+}
+
+###
+
+### Login con Email No Existente (DEBE FALLAR)
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "noexiste@example.com",
+  "password": "Password123!"
+}
+
+###
+
+### Segundo Usuario de Prueba
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "Ana López",
+  "email": "ana.lopez@example.com",
+  "password": "SecurePass456#"
+}

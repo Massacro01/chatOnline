@@ -1,0 +1,11 @@
+C:\Users\Iserre\Desktop\KanbanApp\Shared.Kernel\bin\Debug\net9.0\Shared.Kernel.deps.json
+C:\Users\Iserre\Desktop\KanbanApp\Shared.Kernel\bin\Debug\net9.0\Shared.Kernel.dll
+C:\Users\Iserre\Desktop\KanbanApp\Shared.Kernel\bin\Debug\net9.0\Shared.Kernel.pdb
+C:\Users\Iserre\Desktop\KanbanApp\Shared.Kernel\obj\Debug\net9.0\Shared.Kernel.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Iserre\Desktop\KanbanApp\Shared.Kernel\obj\Debug\net9.0\Shared.Kernel.AssemblyInfoInputs.cache
+C:\Users\Iserre\Desktop\KanbanApp\Shared.Kernel\obj\Debug\net9.0\Shared.Kernel.AssemblyInfo.cs
+C:\Users\Iserre\Desktop\KanbanApp\Shared.Kernel\obj\Debug\net9.0\Shared.Kernel.csproj.CoreCompileInputs.cache
+C:\Users\Iserre\Desktop\KanbanApp\Shared.Kernel\obj\Debug\net9.0\Shared.Kernel.dll
+C:\Users\Iserre\Desktop\KanbanApp\Shared.Kernel\obj\Debug\net9.0\refint\Shared.Kernel.dll
+C:\Users\Iserre\Desktop\KanbanApp\Shared.Kernel\obj\Debug\net9.0\Shared.Kernel.pdb
+C:\Users\Iserre\Desktop\KanbanApp\Shared.Kernel\obj\Debug\net9.0\ref\Shared.Kernel.dll
