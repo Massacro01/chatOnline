@@ -23,10 +23,7 @@ public class BoardsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetBoards()
     {
-        // ✅ CAMBIO: Ahora lista TODOS los grupos (públicos)
-        // Eliminado el filtro .Where(b => b.OwnerId == userId)
-        // para que todos los usuarios vean todos los grupos disponibles
-        
+        // ✅ Restaurado: listar todos los tableros disponibles sin filtrar por miembros
         var boards = await _context.Boards
             .Include(b => b.Columns.OrderBy(c => c.Order))
             .OrderByDescending(b => b.CreatedAt)
@@ -126,4 +123,6 @@ public class BoardsController : ControllerBase
 
         return NoContent();
     }
+
+    // LeaveBoard endpoint removed: leaving boards is handled client-side for now.
 }

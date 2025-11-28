@@ -41,5 +41,7 @@ public class BoardsDbContext : DbContext
             entity.Property(e => e.BoardId).IsRequired();
             entity.Property(e => e.Order).IsRequired();
         });
+
+        // No BoardMember configuration (feature reverted)
     }
 }

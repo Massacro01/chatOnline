@@ -57,6 +57,21 @@ const boardService = {
             throw error;
         }
     },
+    /**
+     * El usuario actual sale (leave) del tablero.
+     * Nota: backend leave endpoint fue revertido; usamos fallback local.
+     */
+    leaveBoard: async (id) => {
+        // Intentar llamar al endpoint si existe, pero si falla, devolver rechazo
+        try {
+            const response = await boardsApi.post(`/boards/${id}/leave`);
+            return response.data;
+        } catch (error) {
+            // No forzar error: devolver null para que el caller haga fallback local
+            console.warn('leaveBoard backend no disponible, use fallback local', error?.response?.status);
+            throw error;
+        }
+    },
 };
 
 export default boardService;

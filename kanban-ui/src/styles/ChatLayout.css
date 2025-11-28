@@ -16,6 +16,20 @@
      background: rgba(0,0,0,0.06);
      color: #e33;
 }
+
+.leave-btn {
+    border: none;
+    background: transparent;
+    color: #555;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 6px 8px;
+    border-radius: 6px;
+}
+.leave-btn:hover {
+    background: rgba(0,0,0,0.04);
+    color: #c65;
+}
     --whatsapp-green: #25d366;
     --whatsapp-light-green: #d9fdd3;
     --whatsapp-teal: #075e54;

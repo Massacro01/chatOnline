@@ -93,6 +93,8 @@ const ChatSidebar = ({ activeGroupId = null, hiddenOnMobile = false }) => {
         }
     };
 
+    // Leave functionality removed: no client-side persistence of "left" boards.
+
     const createNewGroup = async (title) => {
         try {
             const newBoard = await boardService.createBoard(title);
