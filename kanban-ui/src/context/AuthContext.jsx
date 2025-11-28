@@ -26,7 +26,13 @@ export const AuthProvider = ({ children }) => {
 
                 if (decoded.exp > currentTime) {
                     setToken(storedToken);
-                    setUser(JSON.parse(storedUser));
+                    // Ensure stored user has id; if not, try to extract from token
+                    const parsed = JSON.parse(storedUser);
+                    if (!parsed?.id) {
+                        const idFromToken = decoded.sub || decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] || decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid'];
+                        if (idFromToken) parsed.id = idFromToken;
+                    }
+                    setUser(parsed);
                     setIsAuthenticated(true);
                 } else {
                     // Token expirado, limpiar
@@ -53,11 +59,11 @@ export const AuthProvider = ({ children }) => {
             const { token: jwtToken } = response;
             const decoded = jwtDecode(jwtToken);
 
-            // Preparar objeto de usuario
+            // Preparar objeto de usuario (usar sub como fallback para id)
             const userData = {
-                id: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
-                email: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
-                fullName: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
+                id: decoded.sub || decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] || decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid'],
+                email: decoded.email || decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
+                fullName: decoded.name || decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
             };
 
             // Guardar en localStorage

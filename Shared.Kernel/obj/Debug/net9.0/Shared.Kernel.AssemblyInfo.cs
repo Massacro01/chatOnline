@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Shared.Kernel")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1fdb1cf5d49ece78447853a7e40f8937b0991acd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+852221b37f41ac9ddb0ce7641d23a93bbdc4a784")]
 [assembly: System.Reflection.AssemblyProductAttribute("Shared.Kernel")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Shared.Kernel")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

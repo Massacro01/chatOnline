@@ -60,7 +60,7 @@ public class BoardsController : ControllerBase
         {
             return BadRequest(ModelState);
         }
-
+        
         // Obtener el ID del usuario desde el token JWT
         var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         
@@ -94,5 +94,36 @@ public class BoardsController : ControllerBase
         await _context.SaveChangesAsync();
 
         return CreatedAtAction(nameof(GetBoards), new { id = newBoard.Id }, newBoard);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteBoard(Guid id)
+    {
+        var board = await _context.Boards.FirstOrDefaultAsync(b => b.Id == id);
+        if (board == null)
+        {
+            return NotFound(new { message = "Tablero no encontrado" });
+        }
+
+        // Sólo el propietario puede eliminar su tablero
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId))
+        {
+            return Unauthorized(new { message = "Usuario no autenticado" });
+        }
+
+        if (board.OwnerId != userId)
+        {
+            return Forbid();
+        }
+
+        // Eliminar columnas relacionadas primero (si hay FK con cascade, esto puede omitirse)
+        var columns = _context.Columns.Where(c => c.BoardId == board.Id);
+        _context.Columns.RemoveRange(columns);
+
+        _context.Boards.Remove(board);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
     }
 }

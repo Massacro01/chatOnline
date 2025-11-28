@@ -44,6 +44,19 @@ const boardService = {
             throw error;
         }
     },
+    /**
+     * Elimina un tablero por su ID
+     * @param {string} id
+     */
+    deleteBoard: async (id) => {
+        try {
+            const response = await boardsApi.delete(`/boards/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error al eliminar tablero:', error);
+            throw error;
+        }
+    },
 };
 
 export default boardService;
