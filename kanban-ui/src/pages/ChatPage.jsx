@@ -33,6 +33,8 @@ const ChatPage = () => {
     const [loading, setLoading] = useState(true);
 
     const messagesEndRef = useRef(null);
+    const emojiPickerRef = useRef(null);
+    const emojiButtonRef = useRef(null);
 
     // <-- 3. Procesar mensajes para agruparlos (usando useMemo para eficiencia)
     const processedMessages = useMemo(() => groupMessagesByDate(messages), [messages]);
@@ -221,6 +223,22 @@ const ChatPage = () => {
         }
     };
 
+    // Close emoji picker when clicking outside of it or the emoji button
+    useEffect(() => {
+        if (!showEmojiPicker) return;
+
+        const handleClickOutside = (event) => {
+            const pickerEl = emojiPickerRef.current;
+            const btnEl = emojiButtonRef.current;
+            if (pickerEl && pickerEl.contains(event.target)) return;
+            if (btnEl && btnEl.contains(event.target)) return;
+            setShowEmojiPicker(false);
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [showEmojiPicker]);
+
     const getInitial = (name) => {
         return name ? name.charAt(0).toUpperCase() : '?';
     };
@@ -341,6 +359,7 @@ const ChatPage = () => {
                 <form className="chat-footer" onSubmit={handleSendMessage}>
                     <div style={{ position: 'relative' }}>
                         <button
+                            ref={emojiButtonRef}
                             type="button"
                             className="emoji-btn"
                             onClick={() => setShowEmojiPicker((s) => !s)}
@@ -349,12 +368,12 @@ const ChatPage = () => {
                             😊
                         </button>
                         {showEmojiPicker && (
-                            <div style={{ position: 'absolute', bottom: '54px', left: 0, zIndex: 60 }}>
+                            <div ref={emojiPickerRef} style={{ position: 'absolute', bottom: '54px', left: 0, zIndex: 60 }}>
                                 <Picker
                                     onEmojiClick={(emojiData) => {
                                         const emoji = emojiData?.emoji || (emojiData?.unified ? String.fromCodePoint(...emojiData.unified.split('-').map(u=>parseInt(u,16))) : '');
                                         setNewMessage((prev) => prev + emoji);
-                                        setShowEmojiPicker(false);
+                                        // NOTE: intentionally do NOT close the picker here so user can select multiple emojis
                                     }}
                                 />
                             </div>
