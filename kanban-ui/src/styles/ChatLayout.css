@@ -461,6 +461,8 @@
     border: none;
     border-radius: 24px;
     background-color: var(--whatsapp-white);
+    color: var(--whatsapp-text-dark);
+    caret-color: var(--whatsapp-text-dark);
     font-size: 15px;
     outline: none;
     box-shadow: var(--shadow-sm);
