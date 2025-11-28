@@ -23,7 +23,7 @@ public class BoardsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetBoards()
     {
-        // ✅ Restaurado: listar todos los tableros disponibles sin filtrar por miembros
+        // Restaurado: listar todos los tableros disponibles sin filtrar por miembros
         var boards = await _context.Boards
             .Include(b => b.Columns.OrderBy(c => c.Order))
             .OrderByDescending(b => b.CreatedAt)
@@ -35,7 +35,7 @@ public class BoardsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetBoardById(Guid id)
     {
-        // ✅ CAMBIO: Eliminado el filtro de OwnerId
+        // CAMBIO: Eliminado el filtro de OwnerId
         // Ahora cualquier usuario autenticado puede ver cualquier grupo
         
         var board = await _context.Boards

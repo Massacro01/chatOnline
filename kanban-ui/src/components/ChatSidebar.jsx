@@ -11,7 +11,7 @@ import { useAuth } from '../context/AuthContext';
 /**
  * ChatSidebar - Componente de barra lateral estilo WhatsApp
  * Muestra la lista de grupos/tableros disponibles
- * ✅ ACTUALIZACIÓN EN TIEMPO REAL cuando se crean nuevos grupos
+ * ACTUALIZACIÓN EN TIEMPO REAL cuando se crean nuevos grupos
  */
 const ChatSidebar = ({ activeGroupId = null, hiddenOnMobile = false }) => {
     const navigate = useNavigate();
@@ -37,7 +37,7 @@ const ChatSidebar = ({ activeGroupId = null, hiddenOnMobile = false }) => {
     };
 
     /**
-     * ✅ NUEVO: Configurar actualización en tiempo real
+     * NUEVO: Configurar actualización en tiempo real
      * Cuando otro usuario crea un grupo, aparece automáticamente aquí
      */
     const setupRealtimeUpdates = async () => {
@@ -47,8 +47,6 @@ const ChatSidebar = ({ activeGroupId = null, hiddenOnMobile = false }) => {
 
             // Suscribirse al evento de nuevo grupo
             signalrService.onGroupCreated((newGroup) => {
-                console.log('🎉 Nuevo grupo recibido en tiempo real:', newGroup);
-
                 // Agregar el nuevo grupo al estado (evitar duplicados)
                 setGroups((prevGroups) => {
                     const exists = prevGroups.some((g) => g.id === newGroup.id);
@@ -93,7 +91,7 @@ const ChatSidebar = ({ activeGroupId = null, hiddenOnMobile = false }) => {
         }
     };
 
-    // Leave functionality removed: no client-side persistence of "left" boards.
+    // Funcionalidad de "salirse" removida: no hay persistencia cliente de tableros "abandonados".
 
     const createNewGroup = async (title) => {
         try {

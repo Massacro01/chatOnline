@@ -27,7 +27,7 @@ export const tasksApi = axios.create({
     },
 });
 
-// 🔥 INTERCEPTOR CRÍTICO: Inyecta el token JWT automáticamente en todas las peticiones
+// INTERCEPTOR CRÍTICO: Inyecta el token JWT automáticamente en todas las peticiones
 const requestInterceptor = (config) => {
     const token = localStorage.getItem('token');
 
@@ -42,7 +42,7 @@ const requestErrorInterceptor = (error) => {
     return Promise.reject(error);
 };
 
-// 🔥 INTERCEPTOR DE RESPUESTA: Maneja errores globalmente
+// INTERCEPTOR DE RESPUESTA: Maneja errores globalmente
 const responseInterceptor = (response) => {
     return response;
 };

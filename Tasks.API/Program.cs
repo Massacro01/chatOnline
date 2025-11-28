@@ -36,7 +36,7 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(key)
     };
 
-    // 🔥 IMPORTANTE: Configuración para que SignalR pueda usar JWT desde query string
+    // IMPORTANTE: Configuración para que SignalR pueda usar JWT desde query string
     // SignalR envía el token en la query string cuando usa WebSockets
     options.Events = new JwtBearerEvents
     {
@@ -71,7 +71,7 @@ builder.Services.AddCors(options =>
                   "http://localhost:5173") // Puertos de frontends (CRA y Vite)
               .AllowAnyHeader()
               .AllowAnyMethod()
-              .AllowCredentials(); // 🔥 IMPRESCINDIBLE para SignalR WebSockets
+              .AllowCredentials(); // IMPRESCINDIBLE para SignalR WebSockets
     });
 });
 
@@ -88,7 +88,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// 🔥 ORDEN CRÍTICO DEL MIDDLEWARE:
+// ORDEN CRÍTICO DEL MIDDLEWARE:
 // 1. CORS debe ir ANTES de Authentication y Authorization
 app.UseCors("KanbanCorsPolicy");
 

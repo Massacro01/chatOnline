@@ -37,7 +37,7 @@ const MessageBubble = ({ message, currentUserId = null, onEdit, onDelete }) => {
 
     const handleReact = async () => {
         try {
-            // Por ahora, reaccionamos siempre con un corazón ❤️
+            // Por ahora, reaccionamos siempre con "corazón"
             await chatService.reactToMessage(message.id, currentUserId, '❤️');
         } catch (error) {
             console.error("Error al reaccionar:", error);

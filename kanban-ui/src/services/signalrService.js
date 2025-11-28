@@ -47,9 +47,8 @@ class SignalRService {
                     console.warn('SignalR reconectando...', error);
                 });
 
-                this.connection.onreconnected((connectionId) => {
-                    console.log('SignalR reconectado:', connectionId);
-                    // Re-unirse al tablero si había uno activo
+                this.connection.onreconnected((/*connectionId*/) => {
+                    // Reunir al cliente al tablero activo si fuera necesario
                     if (this.currentBoardId) {
                         this.joinBoard(this.currentBoardId);
                     }
@@ -63,7 +62,6 @@ class SignalRService {
             // Iniciar la conexión si no está conectada ni conectándose
             if (this.connection.state === signalR.HubConnectionState.Disconnected) {
                 await this.connection.start();
-                console.log('✅ SignalR conectado exitosamente');
             }
         } catch (error) {
             console.error('Error al iniciar conexión SignalR:', error);
@@ -78,7 +76,6 @@ class SignalRService {
         try {
             if (this.connection) {
                 await this.connection.stop();
-                console.log('SignalR desconectado');
                 this.connection = null;
                 this.currentGroupId = null;
             }
@@ -110,7 +107,6 @@ class SignalRService {
 
             await this.connection.invoke('JoinGroup', groupId);
             this.currentGroupId = groupId;
-            console.log(`✅ Unido al grupo: ${groupId}`);
         } catch (error) {
             console.error('Error al unirse al grupo:', error);
         }
@@ -131,7 +127,6 @@ class SignalRService {
 
             await this.connection.invoke('LeaveGroup', groupId);
             this.currentGroupId = null;
-            console.log(`Salió del grupo: ${groupId}`);
         } catch (error) {
             console.error('Error al salir del grupo:', error);
         }
@@ -147,11 +142,10 @@ class SignalRService {
             return;
         }
 
-        // ✅ FIX: Remover listener anterior para evitar duplicados
+        // Remover listener anterior para evitar duplicados
         this.connection.off('ReceiveMessage');
 
         this.connection.on('ReceiveMessage', (message) => {
-            console.log('📬 Mensaje recibido (SignalR):', message);
             callback(message);
         });
     }
@@ -162,7 +156,6 @@ class SignalRService {
     offReceiveMessage() {
         if (this.connection) {
             this.connection.off('ReceiveMessage');
-            console.log('🔇 Listener de ReceiveMessage removido');
         }
     }
 
@@ -176,11 +169,10 @@ class SignalRService {
             return;
         }
 
-        // ✅ FIX: Remover listener anterior
+        // Remover listener anterior
         this.connection.off('UserTyping');
 
         this.connection.on('UserTyping', (userName) => {
-            console.log('✏️ Usuario escribiendo (SignalR):', userName);
             callback(userName);
         });
     }
@@ -200,7 +192,6 @@ class SignalRService {
         if (!this.connection) return;
         this.connection.off('MessageReacted'); // Evitar duplicados
         this.connection.on('MessageReacted', (data) => {
-            console.log('❤️ Reacción recibida (SignalR):', data);
             callback(data);
         });
     }
@@ -215,7 +206,6 @@ class SignalRService {
         if (!this.connection) return;
         this.connection.off('MessageUpdated');
         this.connection.on('MessageUpdated', (data) => {
-            console.log('✏️ Mensaje actualizado (SignalR):', data);
             callback(data);
         });
     }
@@ -230,7 +220,6 @@ class SignalRService {
         if (!this.connection) return;
         this.connection.off('MessageDeleted');
         this.connection.on('MessageDeleted', (data) => {
-            console.log('🗑️ Mensaje borrado (SignalR):', data);
             callback(data);
         });
     }
@@ -242,7 +231,7 @@ class SignalRService {
     }
 
     /**
-     * ✅ NUEVO: Escucha el evento de creación de grupos
+     * NUEVO: Escucha el evento de creación de grupos
      * @param {Function} callback - Función a ejecutar cuando se crea un nuevo grupo
      */
     onGroupCreated(callback) {
@@ -251,11 +240,10 @@ class SignalRService {
             return;
         }
 
-        // ✅ FIX: Remover listener anterior
+        // Remover listener anterior
         this.connection.off('GroupCreated');
 
         this.connection.on('GroupCreated', (newGroup) => {
-            console.log('🎉 Nuevo grupo creado (SignalR):', newGroup);
             callback(newGroup);
         });
     }

@@ -15,6 +15,6 @@ public class Message
 
     public DateTime SentAt { get; set; }
 
-    // Almacenará un JSON con las reacciones, ej: {"userId1": "❤️", "userId2": "👍"}
+    // Almacenará un JSON con las reacciones, ej: {"userId1": "corazon", "userId2": "pulgar_arriba"}
     public string? Reactions { get; set; }
 }

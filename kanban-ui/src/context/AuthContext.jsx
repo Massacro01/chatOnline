@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    // 🔥 Cargar token y usuario desde localStorage al iniciar
+    // Cargar token y usuario desde localStorage al iniciar
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
         const storedUser = localStorage.getItem('user');
@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
     }, []);
 
-    // 🔥 Función de Login
+    // Función de Login
     const login = async (email, password) => {
         try {
             setLoading(true);
@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // 🔥 Función de Registro
+    // Función de Registro
     const register = async (fullName, email, password) => {
         try {
             setLoading(true);
@@ -117,7 +117,7 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // 🔥 Función de Logout
+    // Función de Logout
     const logout = () => {
         // Limpiar localStorage
         localStorage.removeItem('token');

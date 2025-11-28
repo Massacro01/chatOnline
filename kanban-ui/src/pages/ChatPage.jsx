@@ -6,8 +6,8 @@ import { toast } from 'react-toastify';
 import chatService from '../services/chatService';
 import signalrService from '../services/signalrService';
 import MessageBubble from '../components/MessageBubble';
-import DateSeparator from '../components/DateSeparator'; // <-- 1. Importar componente
-import { groupMessagesByDate } from '../utils/chatUtils'; // <-- 2. Importar función
+import DateSeparator from '../components/DateSeparator';
+import { groupMessagesByDate } from '../utils/chatUtils';
 import ChatSidebar from '../components/ChatSidebar';
 import boardService from '../services/boardService';
 import '../styles/ChatLayout.css';
@@ -17,10 +17,10 @@ import { getAvatarColor, getInitial } from '../utils/avatarUtils';
  * ChatPage - Página principal estilo WhatsApp Web
  * Layout horizontal: Sidebar (30%) + Chat Area (70%)
  * 
- * FIXES IMPLEMENTADOS:
- * ✅ Bug de SignalR: Usa setMessages((prev) => ...) para inmutabilidad
- * ✅ Auto-scroll al final cuando llegan nuevos mensajes
- * ✅ Limpieza de mensajes al cambiar de grupo
+ * Correcciones importantes:
+ * - Bug de SignalR: usar setMessages((prev) => ...) para mantener inmutabilidad
+ * - Auto-scroll al final cuando llegan nuevos mensajes
+ * - Limpieza de listeners y mensajes al cambiar de grupo
  */
 const ChatPage = () => {
     const { id } = useParams(); // ID del grupo/tablero activo
@@ -91,7 +91,6 @@ const ChatPage = () => {
                 //
                 // AHORA (CORRECTO): Usa función de actualización
                 signalrService.onReceiveMessage((newMessage) => {
-                    console.log('📬 Mensaje recibido en vivo:', newMessage);
 
                     setMessages((prevMessages) => {
                         // Evitar duplicados (el backend podría enviar el mismo mensaje)
@@ -143,7 +142,7 @@ const ChatPage = () => {
                     }, 3000);
                 });
             } catch (error) {
-                console.error('❌ Error al inicializar chat:', error);
+                console.error('Error al inicializar chat:', error);
                 setConnectionState('Error');
                 toast.error('No se pudo conectar al chat');
             } finally {
@@ -153,10 +152,9 @@ const ChatPage = () => {
 
         init();
 
-        // ✅ Cleanup: Salir del grupo y limpiar listeners cuando se desmonta o cambia el ID
+        // Limpieza: salir del grupo y remover listeners cuando se desmonta o cambia el ID
         return () => {
             if (id) {
-                console.log('🧹 Limpiando listeners para grupo:', id);
                 signalrService.leaveGroup(id);
                 signalrService.offReceiveMessage();
                 signalrService.offUserTyping();
@@ -189,7 +187,7 @@ const ChatPage = () => {
             await chatService.sendMessage(id, content);
             setNewMessage('');
         } catch (error) {
-            console.error('❌ Error al enviar mensaje:', error);
+            console.error('Error al enviar mensaje:', error);
             toast.error('No se pudo enviar el mensaje');
         }
     };
@@ -225,7 +223,7 @@ const ChatPage = () => {
         }
     };
 
-    // Close emoji picker when clicking outside of it or the emoji button
+    // Cerrar el selector de emoji al hacer click fuera del mismo o del botón
     useEffect(() => {
         if (!showEmojiPicker) return;
 
@@ -378,7 +376,7 @@ const ChatPage = () => {
                                     onEmojiClick={(emojiData) => {
                                         const emoji = emojiData?.emoji || (emojiData?.unified ? String.fromCodePoint(...emojiData.unified.split('-').map(u=>parseInt(u,16))) : '');
                                         setNewMessage((prev) => prev + emoji);
-                                        // NOTE: intentionally do NOT close the picker here so user can select multiple emojis
+                                        // Nota: intencionalmente NO cerramos el picker aquí para permitir seleccionar varios emojis
                                     }}
                                 />
                             </div>
