@@ -17,3 +17,16 @@ desktop.ini
 
 # local env files
 **/appsettings.Development.json
+
+# SQLite DB files and write-ahead logs
+**/*.db
+**/*.db-shm
+**/*.db-wal
+
+# .NET build artifacts
+**/bin/
+**/obj/
+
+# Visual Studio files
+*.user
+*.suo
