@@ -325,6 +325,19 @@
 
     to {
         opacity: 1;
+.message-row .chat-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
         transform: translateY(0);
     }
 }
@@ -347,8 +360,22 @@
     overflow-wrap: break-word;
 }
 
+.emoji-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    margin-right: 8px;
+}
 /* Mensajes enviados (míos) */
 .own-bubble {
+.back-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    margin-right: 8px;
+    cursor: pointer;
+}
     background-color: var(--whatsapp-light-green);
     border-bottom-right-radius: 2px;
 }

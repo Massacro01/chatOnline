@@ -4,13 +4,14 @@ import PropTypes from 'prop-types';
 import boardService from '../services/boardService';
 import signalrService from '../services/signalrService';
 import '../styles/ChatLayout.css';
+import { getAvatarColor, getInitial } from '../utils/avatarUtils';
 
 /**
  * ChatSidebar - Componente de barra lateral estilo WhatsApp
  * Muestra la lista de grupos/tableros disponibles
  * ✅ ACTUALIZACIÓN EN TIEMPO REAL cuando se crean nuevos grupos
  */
-const ChatSidebar = ({ activeGroupId = null }) => {
+const ChatSidebar = ({ activeGroupId = null, hiddenOnMobile = false }) => {
     const navigate = useNavigate();
     const [groups, setGroups] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -86,9 +87,7 @@ const ChatSidebar = ({ activeGroupId = null }) => {
         group.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const getInitial = (name) => {
-        return name ? name.charAt(0).toUpperCase() : '?';
-    };
+    
 
     if (loading) {
         return (
@@ -101,7 +100,7 @@ const ChatSidebar = ({ activeGroupId = null }) => {
     }
 
     return (
-        <div className="chat-sidebar">
+        <div className={`chat-sidebar ${hiddenOnMobile ? 'mobile-hidden' : ''}`}>
             {/* Header con botón para crear nuevo grupo */}
             <div className="sidebar-header">
                 <h2>Chats</h2>
@@ -140,7 +139,11 @@ const ChatSidebar = ({ activeGroupId = null }) => {
                             className={`chat-item ${activeGroupId === group.id ? 'active' : ''}`}
                             onClick={() => handleGroupClick(group.id)}
                         >
-                            <div className="chat-avatar">
+                            <div
+                                className="chat-avatar"
+                                style={{ backgroundColor: getAvatarColor(group.title) }}
+                                title={group.title}
+                            >
                                 {getInitial(group.title)}
                             </div>
                             <div className="chat-info">

@@ -22,3 +22,15 @@ D:\Downloads\KanbanApp\Shared.Kernel\obj\Debug\net9.0\Shared.Kernel.dll
 D:\Downloads\KanbanApp\Shared.Kernel\obj\Debug\net9.0\refint\Shared.Kernel.dll
 D:\Downloads\KanbanApp\Shared.Kernel\obj\Debug\net9.0\Shared.Kernel.pdb
 D:\Downloads\KanbanApp\Shared.Kernel\obj\Debug\net9.0\ref\Shared.Kernel.dll
+C:\Users\gabim\OneDrive\Desktop\chatOnline\Shared.Kernel\bin\Debug\net9.0\Shared.Kernel.deps.json
+C:\Users\gabim\OneDrive\Desktop\chatOnline\Shared.Kernel\bin\Debug\net9.0\Shared.Kernel.dll
+C:\Users\gabim\OneDrive\Desktop\chatOnline\Shared.Kernel\bin\Debug\net9.0\Shared.Kernel.pdb
+C:\Users\gabim\OneDrive\Desktop\chatOnline\Shared.Kernel\obj\Debug\net9.0\Shared.Kernel.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gabim\OneDrive\Desktop\chatOnline\Shared.Kernel\obj\Debug\net9.0\Shared.Kernel.AssemblyInfoInputs.cache
+C:\Users\gabim\OneDrive\Desktop\chatOnline\Shared.Kernel\obj\Debug\net9.0\Shared.Kernel.AssemblyInfo.cs
+C:\Users\gabim\OneDrive\Desktop\chatOnline\Shared.Kernel\obj\Debug\net9.0\Shared.Kernel.csproj.CoreCompileInputs.cache
+C:\Users\gabim\OneDrive\Desktop\chatOnline\Shared.Kernel\obj\Debug\net9.0\Shared.Kernel.sourcelink.json
+C:\Users\gabim\OneDrive\Desktop\chatOnline\Shared.Kernel\obj\Debug\net9.0\Shared.Kernel.dll
+C:\Users\gabim\OneDrive\Desktop\chatOnline\Shared.Kernel\obj\Debug\net9.0\refint\Shared.Kernel.dll
+C:\Users\gabim\OneDrive\Desktop\chatOnline\Shared.Kernel\obj\Debug\net9.0\Shared.Kernel.pdb
+C:\Users\gabim\OneDrive\Desktop\chatOnline\Shared.Kernel\obj\Debug\net9.0\ref\Shared.Kernel.dll

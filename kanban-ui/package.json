@@ -14,6 +14,8 @@
         "axios": "^1.7.2",
         "jwt-decode": "^4.0.0",
         "prop-types": "^15.8.1",
+        "emoji-picker-react": "^4.6.4",
+        "boring-avatars": "^1.3.3",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
         "react-router-dom": "^6.23.1",

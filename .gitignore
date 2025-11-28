@@ -1,0 +1,19 @@
+# Node modules (frontend)
+/kanban-ui/node_modules/
+
+# Vite cache
+/kanban-ui/.vite/
+
+# Log files
+.log
+
+# Visual Studio and VSCode
+.vs/
+.vscode/
+
+# OS files
+Thumbs.db
+desktop.ini
+
+# local env files
+**/appsettings.Development.json

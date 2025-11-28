@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import '../styles/ChatLayout.css';
+import { getAvatarColor, getInitial } from '../utils/avatarUtils';
 
 /**
  * MessageBubble - Componente de burbuja de mensaje estilo WhatsApp
@@ -42,8 +43,18 @@ const MessageBubble = ({ message, currentUserId = null, onEdit, onDelete }) => {
     };
 
     return (
-        <div className={`message-row ${isOwn ? 'own' : 'other'}`}>
-            <div className={`message-bubble ${isOwn ? 'own-bubble' : 'other-bubble'}`}>
+            <div className={`message-row ${isOwn ? 'own' : 'other'}`}>
+                {!isOwn && (
+                    <div
+                        className="chat-avatar"
+                        style={{ width: 36, height: 36, marginRight: 8, backgroundColor: getAvatarColor(message.senderName) }}
+                        title={message.senderName}
+                    >
+                        {getInitial(message.senderName)}
+                    </div>
+                )}
+
+                <div className={`message-bubble ${isOwn ? 'own-bubble' : 'other-bubble'}`}>
                 {/* Mostrar nombre del remitente solo en mensajes de otros */}
                 {!isOwn && (
                     <div className="message-sender">{message.senderName}</div>

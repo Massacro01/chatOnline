@@ -1,5 +1,6 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import Picker from 'emoji-picker-react';
 import { toast } from 'react-toastify';
 import chatService from '../services/chatService';
 import signalrService from '../services/signalrService';
@@ -24,6 +25,8 @@ const ChatPage = () => {
     const [board, setBoard] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
     const [isTyping, setIsTyping] = useState(null);
     const [connectionState, setConnectionState] = useState('Disconnected');
     const [loading, setLoading] = useState(true);
@@ -34,7 +37,16 @@ const ChatPage = () => {
     const processedMessages = useMemo(() => groupMessagesByDate(messages), [messages]);
     const typingTimeoutRef = useRef(null);
 
+    // Detect mobile breakpoint to hide sidebar / show back button
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const currentUserId = getCurrentUserId();
+    const navigate = useNavigate();
 
     // ============================================
     // EFFECT 1: Cargar datos cuando cambia el ID
@@ -218,7 +230,7 @@ const ChatPage = () => {
     if (loading) {
         return (
             <div className="chat-layout">
-                <ChatSidebar activeGroupId={id} />
+                <ChatSidebar activeGroupId={id} hiddenOnMobile={false} />
                 <div className="loading-container">
                     <div className="spinner"></div>
                     <p>Cargando chat...</p>
@@ -231,7 +243,7 @@ const ChatPage = () => {
     if (!id) {
         return (
             <div className="chat-layout">
-                <ChatSidebar activeGroupId={null} />
+                <ChatSidebar activeGroupId={null} hiddenOnMobile={false} />
                 <div className="empty-chat-area">
                     <div style={{ fontSize: '100px' }}>💬</div>
                     <h2>KanbanApp Chat</h2>
@@ -251,13 +263,16 @@ const ChatPage = () => {
     return (
         <div className="chat-layout">
             {/* SIDEBAR (30%) - Lista de grupos */}
-            <ChatSidebar activeGroupId={id} />
+            <ChatSidebar activeGroupId={id} hiddenOnMobile={isMobile && !!id} />
 
             {/* CHAT AREA (70%) - Mensajes e input */}
             <div className="chat-area">
                 {/* Header del chat */}
                 <div className="chat-header">
                     <div className="chat-header-left">
+                        {isMobile && (
+                            <button className="back-btn" onClick={() => navigate('/')}>←</button>
+                        )}
                         <div className="chat-header-avatar">
                             {board ? getInitial(board.title) : '?'}
                         </div>
@@ -323,6 +338,28 @@ const ChatPage = () => {
 
                 {/* Footer - Input para escribir mensaje */}
                 <form className="chat-footer" onSubmit={handleSendMessage}>
+                    <div style={{ position: 'relative' }}>
+                        <button
+                            type="button"
+                            className="emoji-btn"
+                            onClick={() => setShowEmojiPicker((s) => !s)}
+                            title="Emojis"
+                        >
+                            😊
+                        </button>
+                        {showEmojiPicker && (
+                            <div style={{ position: 'absolute', bottom: '54px', left: 0, zIndex: 60 }}>
+                                <Picker
+                                    onEmojiClick={(emojiData) => {
+                                        const emoji = emojiData?.emoji || (emojiData?.unified ? String.fromCodePoint(...emojiData.unified.split('-').map(u=>parseInt(u,16))) : '');
+                                        setNewMessage((prev) => prev + emoji);
+                                        setShowEmojiPicker(false);
+                                    }}
+                                />
+                            </div>
+                        )}
+                    </div>
+
                     <input
                         type="text"
                         className="chat-input"
