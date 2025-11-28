@@ -29,6 +29,8 @@ const MessageBubble = ({ message, currentUserId = null, onEdit, onDelete }) => {
 
     const time = formatTime(message.sentAt);
 
+    // Semilla para avatar: preferir nombre, sino usar senderId
+    const avatarSeed = message.senderName || message.senderId || '';
     const reactions = message.reactions ? JSON.parse(message.reactions) : {};
     const reactionEntries = Object.entries(reactions);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -47,17 +49,17 @@ const MessageBubble = ({ message, currentUserId = null, onEdit, onDelete }) => {
                 {!isOwn && (
                     <div
                         className="chat-avatar"
-                        style={{ width: 36, height: 36, marginRight: 8, backgroundColor: getAvatarColor(message.senderName) }}
-                        title={message.senderName}
+                        style={{ width: 36, height: 36, marginRight: 8, backgroundColor: getAvatarColor(avatarSeed) }}
+                        title={message.senderName || message.senderId}
                     >
-                        {getInitial(message.senderName)}
+                        {getInitial(message.senderName || message.senderId)}
                     </div>
                 )}
 
                 <div className={`message-bubble ${isOwn ? 'own-bubble' : 'other-bubble'}`}>
                 {/* Mostrar nombre del remitente solo en mensajes de otros */}
                 {!isOwn && (
-                    <div className="message-sender">{message.senderName}</div>
+                    <div className="message-sender" style={{ color: getAvatarColor(avatarSeed) }}>{message.senderName}</div>
                 )}
 
                 {/* Contenido del mensaje */}

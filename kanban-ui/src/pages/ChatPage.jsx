@@ -10,6 +10,7 @@ import { groupMessagesByDate } from '../utils/chatUtils'; // <-- 2. Importar fun
 import ChatSidebar from '../components/ChatSidebar';
 import boardService from '../services/boardService';
 import '../styles/ChatLayout.css';
+import { getAvatarColor, getInitial } from '../utils/avatarUtils';
 
 /**
  * ChatPage - Página principal estilo WhatsApp Web
@@ -273,7 +274,7 @@ const ChatPage = () => {
                         {isMobile && (
                             <button className="back-btn" onClick={() => navigate('/')}>←</button>
                         )}
-                        <div className="chat-header-avatar">
+                        <div className="chat-header-avatar" style={{ backgroundColor: board ? getAvatarColor(board.title) : undefined }}>
                             {board ? getInitial(board.title) : '?'}
                         </div>
                         <div className="chat-header-info">

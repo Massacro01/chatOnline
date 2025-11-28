@@ -91,7 +91,11 @@ public class MessagesController : ControllerBase
             return Unauthorized();
         }
 
-        string senderName = User.FindFirst(ClaimTypes.Name)?.Value ?? "Usuario";
+        string senderName =
+            User?.Identity?.Name
+            ?? User.FindFirst("name")?.Value
+            ?? User.FindFirst("unique_name")?.Value
+            ?? "Usuario";
 
         var message = new Message
         {

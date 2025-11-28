@@ -134,7 +134,8 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--whatsapp-green), var(--whatsapp-teal));
+    /* Use background-color so inline styles (JS) can override per-user colors */
+    background-color: var(--whatsapp-green);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -227,7 +228,8 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--whatsapp-green), var(--whatsapp-teal));
+    /* Use background-color so inline React styles can override with per-board color */
+    background-color: var(--whatsapp-green);
     display: flex;
     align-items: center;
     justify-content: center;
