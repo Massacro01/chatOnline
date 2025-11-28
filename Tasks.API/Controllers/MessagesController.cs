@@ -37,6 +37,16 @@ public class MessagesController : ControllerBase
             return NotFound("Message not found.");
         }
 
+        if (request == null)
+        {
+            return BadRequest("Request body is required.");
+        }
+
+        if (string.IsNullOrEmpty(request.Emoji))
+        {
+            return BadRequest("Emoji is required.");
+        }
+
         var reactions = !string.IsNullOrEmpty(message.Reactions) 
             ? JsonSerializer.Deserialize<Dictionary<Guid, string>>(message.Reactions)
             : new Dictionary<Guid, string>();
@@ -61,7 +71,7 @@ public class MessagesController : ControllerBase
         await _context.SaveChangesAsync();
 
         // Notificar a los clientes en tiempo real
-        await _hubContext.Clients.Group(message.BoardId.ToString()).SendAsync("MessageReacted", new 
+        await _hubContext!.Clients.Group(message.BoardId.ToString()).SendAsync("MessageReacted", new 
         {
             MessageId = message.Id,
             Reactions = reactions
@@ -86,15 +96,15 @@ public class MessagesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateMessage([FromBody] CreateMessageDto dto)
     {
-        string? userIdRaw = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? User.FindFirst("sub")?.Value;
+        string? userIdRaw = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? User?.FindFirst("sub")?.Value;
         if (!Guid.TryParse(userIdRaw, out Guid senderId)){
             return Unauthorized();
         }
 
         string senderName =
             User?.Identity?.Name
-            ?? User.FindFirst("name")?.Value
-            ?? User.FindFirst("unique_name")?.Value
+            ?? User?.FindFirst("name")?.Value
+            ?? User?.FindFirst("unique_name")?.Value
             ?? "Usuario";
 
         var message = new Message
@@ -110,7 +120,7 @@ public class MessagesController : ControllerBase
         _context.Messages.Add(message);
         await _context.SaveChangesAsync();
 
-        await _hubContext.Clients.Group(dto.GroupId.ToString()).SendAsync("ReceiveMessage", message);
+        await _hubContext!.Clients.Group(dto.GroupId.ToString()).SendAsync("ReceiveMessage", message);
 
         return Ok(message);
     }
@@ -133,7 +143,7 @@ public class MessagesController : ControllerBase
         message.Content = request.NewContent;
         await _context.SaveChangesAsync();
 
-        await _hubContext.Clients.Group(message.BoardId.ToString()).SendAsync("MessageUpdated", new { message.Id, message.Content });
+        await _hubContext!.Clients.Group(message.BoardId.ToString()).SendAsync("MessageUpdated", new { message.Id, message.Content });
 
         return Ok(message);
     }
@@ -156,7 +166,7 @@ public class MessagesController : ControllerBase
         _context.Messages.Remove(message);
         await _context.SaveChangesAsync();
 
-        await _hubContext.Clients.Group(message.BoardId.ToString()).SendAsync("MessageDeleted", new { MessageId = id, BoardId = message.BoardId });
+        await _hubContext!.Clients.Group(message.BoardId.ToString()).SendAsync("MessageDeleted", new { MessageId = id, BoardId = message.BoardId });
 
         return NoContent();
     }
