@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 import Picker from 'emoji-picker-react';
 import { toast } from 'react-toastify';
 import chatService from '../services/chatService';
@@ -50,6 +51,7 @@ const ChatPage = () => {
 
     const currentUserId = getCurrentUserId();
     const navigate = useNavigate();
+    const { logout } = useAuth();
 
     // ============================================
     // EFFECT 1: Cargar datos cuando cambia el ID
@@ -308,9 +310,12 @@ const ChatPage = () => {
                     </div>
 
                     {/* Indicador de conexión */}
-                    <div className={`connection-badge ${connectionState.toLowerCase()}`}>
-                        <span className="connection-dot"></span>
-                        <span>{connectionState}</span>
+                    <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                        <div className={`connection-badge ${connectionState.toLowerCase()}`}>
+                            <span className="connection-dot"></span>
+                            <span>{connectionState}</span>
+                        </div>
+                        <button className="btn-logout" onClick={logout} title="Cerrar sesión">Cerrar sesión</button>
                     </div>
                 </div>
 

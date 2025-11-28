@@ -79,21 +79,38 @@ body {
 }
 
 .btn-logout {
-    background: #e53e3e;
-    color: white;
+    background: #ff4141bf;
+    color: #ffffff;
     padding: 8px 16px;
-    border: none;
+    border: 2px solid #ff4141bf;
     border-radius: 6px;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 400;
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .btn-logout:hover {
-    background: #c53030;
+    background: #ff4141;
     transform: translateY(-1px);
 }
+
+/* .btn-logout {
+    background: #cabdbd94;
+    color: black;
+    padding: 8px 16px;
+    border: 2px solid #cabdbd;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-logout:hover {
+    background: #cabdbd;
+    transform: translateY(-1px);
+} */
 
 .dashboard-content {
     padding: 40px;
