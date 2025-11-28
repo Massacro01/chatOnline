@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Boards.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+452b0d2165948c549669953321a124e92eff8ce2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Boards.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Boards.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,0 +1,42 @@
+.message-menu-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    overflow: hidden;
+    animation: fadeIn 0.1s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.message-menu-list {
+    list-style: none;
+    margin: 0;
+    padding: 8px 0;
+}
+
+.message-menu-list li {
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    color: #111b21; /* Color de texto oscuro para legibilidad */
+}
+
+.message-menu-list li:hover {
+    background-color: #f0f2f5;
+}
+
+.message-menu-list .delete-option {
+    color: #e53e3e; /* Rojo para la opción de borrar */
+}
+
+.message-menu-list .delete-option:hover {
+    background-color: #fff5f5;
+}

@@ -97,7 +97,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // 3. Map SignalR Hub (chat)
-app.MapHub<ChatHub>("/hubs/kanban");
+app.MapHub<KanbanHub>("/hubs/kanban");
 
 // 4. Map Controllers
 app.MapControllers();

@@ -1,0 +1,19 @@
+.date-separator-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 16px 0;
+    pointer-events: none; /* No se puede hacer clic */
+}
+
+.date-separator-badge {
+    background-color: #e6f3ff; /* Un azul claro suave */
+    color: #005a9e; /* Azul oscuro para el texto */
+    padding: 6px 12px;
+    border-radius: 12px; /* Bordes redondeados */
+    font-size: 12px;
+    font-weight: 500;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    max-width: fit-content;
+}

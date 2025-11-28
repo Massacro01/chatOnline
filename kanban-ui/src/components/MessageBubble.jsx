@@ -1,23 +1,90 @@
 import PropTypes from 'prop-types';
-import './MessageBubble.css';
+import '../styles/ChatLayout.css';
 
-const MessageBubble = ({ message, currentUserId }) => {
+/**
+ * MessageBubble - Componente de burbuja de mensaje estilo WhatsApp
+ * Muestra mensajes con formato diferenciado para propios y ajenos
+ */
+import { useState } from 'react';
+import chatService from '../services/chatService';
+import MessageMenu from './MessageMenu'; // Importar el menú
+
+const MessageBubble = ({ message, currentUserId = null, onEdit, onDelete }) => {
     const isOwn = currentUserId && message.senderId === currentUserId;
 
-    const time = new Date(message.sentAt).toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-    });
+    // Formatear solo la hora (HH:mm)
+    const formatTime = (dateString) => {
+        try {
+            const date = new Date(dateString);
+            return date.toLocaleTimeString('es-AR', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false,
+            });
+        } catch {
+            return '';
+        }
+    };
+
+    const time = formatTime(message.sentAt);
+
+    const reactions = message.reactions ? JSON.parse(message.reactions) : {};
+    const reactionEntries = Object.entries(reactions);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const handleReact = async () => {
+        try {
+            // Por ahora, reaccionamos siempre con un corazón ❤️
+            await chatService.reactToMessage(message.id, currentUserId, '❤️');
+        } catch (error) {
+            console.error("Error al reaccionar:", error);
+        }
+    };
 
     return (
         <div className={`message-row ${isOwn ? 'own' : 'other'}`}>
             <div className={`message-bubble ${isOwn ? 'own-bubble' : 'other-bubble'}`}>
+                {/* Mostrar nombre del remitente solo en mensajes de otros */}
                 {!isOwn && (
                     <div className="message-sender">{message.senderName}</div>
                 )}
+
+                {/* Contenido del mensaje */}
                 <div className="message-content">{message.content}</div>
+
+                {/* Hora en la esquina inferior derecha */}
                 <div className="message-time">{time}</div>
+
+                {/* Panel de acciones unificado (estilo WhatsApp) */}
+                <div className="message-actions">
+                    <button className="message-action-btn" onClick={handleReact} title="Reaccionar">
+                        🙂
+                    </button>
+                    {isOwn && (
+                        <button className="message-action-btn" onClick={() => setIsMenuOpen(!isMenuOpen)} title="Menú">
+                            ▼
+                        </button>
+                    )}
+                </div>
+
+                {/* Renderizar el menú si está abierto */}
+                {isMenuOpen && (
+                    <MessageMenu 
+                        onEdit={() => { onEdit(message); setIsMenuOpen(false); }} 
+                        onDelete={() => { onDelete(message); setIsMenuOpen(false); }} 
+                    />
+                )}
             </div>
+
+            {/* Mostrar reacciones si existen */}
+            {reactionEntries.length > 0 && (
+                <div className="message-reactions-container">
+                    {reactionEntries.map(([userId, emoji]) => (
+                        <span key={userId} className="reaction-emoji">{emoji}</span>
+                    ))}
+                    <span className="reaction-count">{reactionEntries.length}</span>
+                </div>
+            )}
         </div>
     );
 };
@@ -33,8 +100,6 @@ MessageBubble.propTypes = {
     currentUserId: PropTypes.string,
 };
 
-MessageBubble.defaultProps = {
-    currentUserId: null,
-};
 
 export default MessageBubble;
+

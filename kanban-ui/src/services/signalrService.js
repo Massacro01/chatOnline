@@ -31,8 +31,9 @@ class SignalRService {
             // Si aún no existe la conexión, crearla
             if (!this.connection) {
                 // Construir la URL del hub con el token en la query string
-                // Esto es necesario porque WebSockets no puede enviar headers personalizados
-                const hubUrl = `http://localhost:5003/hubs/kanban?access_token=${token}`;
+                // Usamos la URL base de la API de tareas (quitando el /api del final si existe)
+                const baseUrl = (import.meta.env.VITE_TASKS_API_URL || 'http://localhost:5180/api').replace('/api', '');
+                const hubUrl = `${baseUrl}/hubs/kanban?access_token=${token}`;
 
                 // Crear la conexión
                 this.connection = new signalR.HubConnectionBuilder()
@@ -122,7 +123,9 @@ class SignalRService {
      */
     async leaveGroup(groupId) {
         try {
-            if (!this.connection) {
+            // Si la conexión no está activa, no hacer nada
+            if (!this.connection || this.connection.state !== signalR.HubConnectionState.Connected) {
+                console.warn('Intento de salir de grupo sin conexión activa. Omitiendo.');
                 return;
             }
 
@@ -144,10 +147,23 @@ class SignalRService {
             return;
         }
 
+        // ✅ FIX: Remover listener anterior para evitar duplicados
+        this.connection.off('ReceiveMessage');
+
         this.connection.on('ReceiveMessage', (message) => {
             console.log('📬 Mensaje recibido (SignalR):', message);
             callback(message);
         });
+    }
+
+    /**
+     * Remueve el listener de mensajes
+     */
+    offReceiveMessage() {
+        if (this.connection) {
+            this.connection.off('ReceiveMessage');
+            console.log('🔇 Listener de ReceiveMessage removido');
+        }
     }
 
     /**
@@ -160,9 +176,87 @@ class SignalRService {
             return;
         }
 
+        // ✅ FIX: Remover listener anterior
+        this.connection.off('UserTyping');
+
         this.connection.on('UserTyping', (userName) => {
             console.log('✏️ Usuario escribiendo (SignalR):', userName);
             callback(userName);
+        });
+    }
+
+    /**
+     * Remueve el listener de typing
+     */
+    offUserTyping() {
+        if (this.connection) {
+            this.connection.off('UserTyping');
+        }
+    }
+
+    // --- Listeners para Reacciones, Edición y Borrado ---
+
+    onMessageReacted(callback) {
+        if (!this.connection) return;
+        this.connection.off('MessageReacted'); // Evitar duplicados
+        this.connection.on('MessageReacted', (data) => {
+            console.log('❤️ Reacción recibida (SignalR):', data);
+            callback(data);
+        });
+    }
+
+    offMessageReacted() {
+        if (this.connection) {
+            this.connection.off('MessageReacted');
+        }
+    }
+
+    onMessageUpdated(callback) {
+        if (!this.connection) return;
+        this.connection.off('MessageUpdated');
+        this.connection.on('MessageUpdated', (data) => {
+            console.log('✏️ Mensaje actualizado (SignalR):', data);
+            callback(data);
+        });
+    }
+
+    offMessageUpdated() {
+        if (this.connection) {
+            this.connection.off('MessageUpdated');
+        }
+    }
+
+    onMessageDeleted(callback) {
+        if (!this.connection) return;
+        this.connection.off('MessageDeleted');
+        this.connection.on('MessageDeleted', (data) => {
+            console.log('🗑️ Mensaje borrado (SignalR):', data);
+            callback(data);
+        });
+    }
+
+    offMessageDeleted() {
+        if (this.connection) {
+            this.connection.off('MessageDeleted');
+        }
+    }
+
+    /**
+     * ✅ NUEVO: Escucha el evento de creación de grupos
+     * @param {Function} callback - Función a ejecutar cuando se crea un nuevo grupo
+     */
+    onGroupCreated(callback) {
+        if (!this.connection) {
+            console.error('No hay conexión activa con SignalR');
+            return;
+        }
+
+        // ✅ FIX: Remover listener anterior
+        this.connection.off('GroupCreated');
+
+        this.connection.on('GroupCreated', (newGroup) => {
+            console.log('🎉 Nuevo grupo creado (SignalR):', newGroup);
+            callback(newGroup);
         });
     }
 

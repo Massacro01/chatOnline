@@ -23,18 +23,12 @@ public class BoardsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetBoards()
     {
-        // Obtener el ID del usuario desde el token JWT
-        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        // ✅ CAMBIO: Ahora lista TODOS los grupos (públicos)
+        // Eliminado el filtro .Where(b => b.OwnerId == userId)
+        // para que todos los usuarios vean todos los grupos disponibles
         
-        if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId))
-        {
-            return Unauthorized(new { message = "Usuario no autenticado" });
-        }
-
-        // Obtener tableros del usuario con sus columnas
         var boards = await _context.Boards
             .Include(b => b.Columns.OrderBy(c => c.Order))
-            .Where(b => b.OwnerId == userId)
             .OrderByDescending(b => b.CreatedAt)
             .ToListAsync();
 
@@ -44,16 +38,12 @@ public class BoardsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetBoardById(Guid id)
     {
-        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId))
-        {
-            return Unauthorized(new { message = "Usuario no autenticado" });
-        }
-
+        // ✅ CAMBIO: Eliminado el filtro de OwnerId
+        // Ahora cualquier usuario autenticado puede ver cualquier grupo
+        
         var board = await _context.Boards
             .Include(b => b.Columns.OrderBy(c => c.Order))
-            .FirstOrDefaultAsync(b => b.Id == id && b.OwnerId == userId);
+            .FirstOrDefaultAsync(b => b.Id == id);
 
         if (board == null)
         {

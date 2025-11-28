@@ -30,6 +30,9 @@ namespace Tasks.API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Reactions")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("SenderId")
                         .HasColumnType("TEXT");
 

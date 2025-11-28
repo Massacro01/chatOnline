@@ -14,4 +14,7 @@ public class Message
     public string SenderName { get; set; } = string.Empty;
 
     public DateTime SentAt { get; set; }
+
+    // Almacenará un JSON con las reacciones, ej: {"userId1": "❤️", "userId2": "👍"}
+    public string? Reactions { get; set; }
 }

@@ -1,0 +1,676 @@
+/* ========================================
+   WHATSAPP WEB CLONE - MAIN LAYOUT
+   ======================================== */
+
+:root {
+    --whatsapp-green: #25d366;
+    --whatsapp-light-green: #d9fdd3;
+    --whatsapp-teal: #075e54;
+    --whatsapp-gray: #f0f2f5;
+    --whatsapp-hover: #e9edef;
+    --whatsapp-bg: #efeae2;
+    --whatsapp-white: #ffffff;
+    --whatsapp-border: #d1d7db;
+    --whatsapp-text-dark: #111b21;
+    --whatsapp-text-gray: #667781;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* ========================================
+   LAYOUT GENERAL - FLEX HORIZONTAL
+   ======================================== */
+
+.chat-layout {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--whatsapp-gray);
+}
+
+/* ========================================
+   SIDEBAR (30%) - LISTA DE GRUPOS/CHATS
+   ======================================== */
+
+.chat-sidebar {
+    width: 30%;
+    min-width: 300px;
+    max-width: 450px;
+    background-color: var(--whatsapp-white);
+    border-right: 1px solid var(--whatsapp-border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.sidebar-header {
+    background-color: var(--whatsapp-gray);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--whatsapp-border);
+    height: 60px;
+}
+
+.sidebar-header h2 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--whatsapp-text-dark);
+}
+
+.btn-new-chat {
+    background-color: var(--whatsapp-green);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-new-chat:hover {
+    background-color: #20ba5a;
+    transform: scale(1.05);
+    box-shadow: var(--shadow-md);
+}
+
+.sidebar-search {
+    padding: 8px 16px;
+    background-color: var(--whatsapp-white);
+    border-bottom: 1px solid var(--whatsapp-border);
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 40px 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--whatsapp-gray);
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.search-input:focus {
+    background-color: var(--whatsapp-white);
+    box-shadow: 0 0 0 2px var(--whatsapp-green);
+}
+
+.chat-list {
+    flex: 1;
+    overflow-y: auto;
+    background-color: var(--whatsapp-white);
+}
+
+.chat-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: background-color 0.15s ease;
+    min-height: 72px;
+}
+
+.chat-item:hover {
+    background-color: var(--whatsapp-hover);
+}
+
+.chat-item.active {
+    background-color: var(--whatsapp-hover);
+    border-left: 4px solid var(--whatsapp-green);
+}
+
+.chat-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--whatsapp-green), var(--whatsapp-teal));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.chat-info {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.chat-name {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--whatsapp-text-dark);
+    margin: 0 0 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat-last-message {
+    font-size: 13px;
+    color: var(--whatsapp-text-gray);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.empty-chat-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--whatsapp-text-gray);
+}
+
+.empty-chat-list h3 {
+    margin: 16px 0 8px 0;
+    font-size: 20px;
+    color: var(--whatsapp-text-dark);
+}
+
+/* ========================================
+   CHAT AREA (70%) - MENSAJES Y INPUT
+   ======================================== */
+
+.chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--whatsapp-bg);
+    position: relative;
+    /* WhatsApp pattern background */
+    background-image:
+        repeating-linear-gradient(45deg,
+            transparent,
+            transparent 10px,
+            rgba(0, 0, 0, 0.02) 10px,
+            rgba(0, 0, 0, 0.02) 20px);
+}
+
+.chat-header {
+    background-color: var(--whatsapp-gray);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--whatsapp-border);
+    height: 60px;
+    box-shadow: var(--shadow-sm);
+}
+
+.chat-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.chat-header-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--whatsapp-green), var(--whatsapp-teal));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.chat-header-info h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--whatsapp-text-dark);
+}
+
+.chat-header-status {
+    font-size: 13px;
+    color: var(--whatsapp-text-gray);
+    margin-top: 2px;
+}
+
+.connection-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.connection-badge.connected {
+    background-color: #d1f4e0;
+    color: #0a7d3e;
+}
+
+.connection-badge.error {
+    background-color: #fde8e8;
+    color: #c53030;
+}
+
+.connection-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor;
+}
+
+/* ========================================
+   MENSAJES - ÁREA DE CHAT
+   ======================================== */
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Scrollbar personalizado estilo WhatsApp */
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   BURBUJAS DE MENSAJE
+   ======================================== */
+
+.message-row {
+    display: flex;
+    margin-bottom: 4px;
+    animation: messageSlideIn 0.2s ease;
+}
+
+@keyframes messageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-row.own {
+    justify-content: flex-end;
+}
+
+.message-row.other {
+    justify-content: flex-start;
+}
+
+.message-bubble {
+    max-width: 65%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Mensajes enviados (míos) */
+.own-bubble {
+    background-color: var(--whatsapp-light-green);
+    border-bottom-right-radius: 2px;
+}
+
+/* Mensajes recibidos (otros) */
+.other-bubble {
+    background-color: var(--whatsapp-white);
+    border-bottom-left-radius: 2px;
+}
+
+.message-sender {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--whatsapp-green);
+    margin-bottom: 4px;
+}
+
+.message-content {
+    font-size: 14px;
+    line-height: 19px;
+    color: var(--whatsapp-text-dark);
+    margin-bottom: 6px;
+    white-space: pre-wrap;
+}
+
+.message-time {
+    font-size: 11px;
+    color: var(--whatsapp-text-gray);
+    text-align: right;
+    margin-top: 4px;
+    opacity: 0.7;
+}
+
+/* ========================================
+   TYPING INDICATOR
+   ======================================== */
+
+.typing-indicator {
+    padding: 8px 16px;
+    margin: 0 20px 8px 20px;
+    background-color: var(--whatsapp-white);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--whatsapp-text-gray);
+    font-style: italic;
+    max-width: fit-content;
+    box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+    animation: typingPulse 1.5s ease infinite;
+}
+
+@keyframes typingPulse {
+
+    0%,
+    100% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* ========================================
+   INPUT AREA - STICKY AL FINAL
+   ======================================== */
+
+.chat-footer {
+    background-color: var(--whatsapp-gray);
+    padding: 12px 20px;
+    border-top: 1px solid var(--whatsapp-border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    bottom: 0;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 24px;
+    background-color: var(--whatsapp-white);
+    font-size: 15px;
+    outline: none;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+}
+
+.chat-input:focus {
+    box-shadow: 0 0 0 2px var(--whatsapp-green);
+}
+
+.chat-input::placeholder {
+    color: var(--whatsapp-text-gray);
+}
+
+.chat-send-btn {
+    background-color: var(--whatsapp-green);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+    flex-shrink: 0;
+}
+
+.chat-send-btn:hover {
+    background-color: #20ba5a;
+    transform: scale(1.05);
+    box-shadow: var(--shadow-md);
+}
+
+.chat-send-btn:active {
+    transform: scale(0.95);
+}
+
+/* ========================================
+   ESTADO VACÍO - NO HAY CHAT SELECCIONADO
+   ======================================== */
+
+.empty-chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    background-color: var(--whatsapp-gray);
+}
+
+.empty-chat-area h2 {
+    font-size: 32px;
+    color: var(--whatsapp-text-dark);
+    margin: 20px 0 12px 0;
+}
+
+.empty-chat-area p {
+    font-size: 14px;
+    color: var(--whatsapp-text-gray);
+    max-width: 440px;
+    line-height: 20px;
+}
+
+/* ========================================
+   LOADING SPINNER
+   ======================================== */
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: var(--whatsapp-gray);
+}
+
+.spinner {
+    border: 4px solid rgba(37, 211, 102, 0.2);
+    border-top: 4px solid var(--whatsapp-green);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-container p {
+    margin-top: 20px;
+    color: var(--whatsapp-text-gray);
+    font-size: 16px;
+}
+
+/* ========================================
+   REACCIONES A MENSAJES
+   ======================================== */
+
+/* Panel de Acciones sobre Mensajes (Estilo WhatsApp) */
+.message-actions {
+    position: absolute;
+    top: -16px;
+    right: 8px;
+    display: flex;
+    align-items: center;
+    background-color: var(--whatsapp-white);
+    border-radius: 18px;
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    transform: translateY(5px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none; /* No interactuable hasta que se muestre */
+}
+
+.message-bubble:hover .message-actions {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.message-action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    font-size: 18px;
+    color: var(--whatsapp-text-gray);
+    transition: color 0.2s;
+}
+
+.message-action-btn:hover {
+    color: var(--whatsapp-text-dark);
+}
+
+/* Separador visual entre botones */
+.message-action-btn:not(:last-child) {
+    border-right: 1px solid var(--whatsapp-border);
+}
+
+/* Contenedor de Reacciones Existentes */
+.message-reactions-container {
+    background-color: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 12px;
+    padding: 2px 6px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    margin-top: -10px; /* Solapa ligeramente con la burbuja */
+    margin-left: 12px; /* Alineado con el inicio de la burbuja */
+    z-index: 1;
+    position: relative;
+    width: fit-content;
+}
+
+/* Ajuste para las burbujas propias (reacciones a la derecha) */
+.message-row.own .message-reactions-container {
+    margin-left: auto; /* Mueve el contenedor a la derecha */
+    margin-right: 12px;
+}
+
+.reaction-emoji {
+    font-size: 14px;
+}
+
+.reaction-count {
+    font-size: 12px;
+    color: #555;
+    font-weight: 500;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 1024px) {
+    .chat-sidebar {
+        width: 35%;
+        min-width: 280px;
+    }
+
+    .message-bubble {
+        max-width: 75%;
+    }
+}
+
+@media (max-width: 768px) {
+    .chat-layout {
+        flex-direction: column;
+    }
+
+    .chat-sidebar {
+        width: 100%;
+        max-width: none;
+        height: 40vh;
+        border-right: none;
+        border-bottom: 1px solid var(--whatsapp-border);
+    }
+
+    .chat-area {
+        height: 60vh;
+    }
+
+    .message-bubble {
+        max-width: 85%;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .chat-header,
+    .sidebar-header {
+        padding: 12px 16px;
+    }
+
+    .chat-messages {
+        padding: 12px;
+    }
+
+    .chat-footer {
+        padding: 8px 12px;
+    }
+
+    .message-bubble {
+        max-width: 90%;
+    }
+}

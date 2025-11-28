@@ -7,11 +7,11 @@ using Tasks.API.Models;
 namespace Tasks.API.Hubs;
 
 [Authorize]
-public class ChatHub : Hub
+public class KanbanHub : Hub
 {
     private readonly TasksDbContext _context;
 
-    public ChatHub(TasksDbContext context)
+    public KanbanHub(TasksDbContext context)
     {
         _context = context;
     }

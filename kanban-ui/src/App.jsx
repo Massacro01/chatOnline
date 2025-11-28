@@ -4,8 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import DashboardPage from './pages/DashboardPage';
-import ChatPage from './pages/BoardPage';
+import ChatPage from './pages/ChatPage';
 import './App.css';
 
 // Componente para proteger rutas
@@ -36,17 +35,17 @@ function App() {
                         {/* Ruta de Registro */}
                         <Route path="/register" element={<RegisterPage />} />
 
-                        {/* Ruta protegida de Dashboard */}
+                        {/* Ruta protegida de Chat (sin ID - muestra layout vacío) */}
                         <Route
-                            path="/dashboard"
+                            path="/chat"
                             element={
                                 <PrivateRoute>
-                                    <DashboardPage />
+                                    <ChatPage />
                                 </PrivateRoute>
                             }
                         />
 
-                        {/* Ruta protegida de detalle de chat (antes tablero) */}
+                        {/* Ruta protegida de Chat con grupo específico */}
                         <Route
                             path="/board/:id"
                             element={
@@ -98,7 +97,7 @@ const LoginRedirect = () => {
         );
     }
 
-    return <Navigate to={isAuthenticated ? '/dashboard' : '/login'} />;
+    return <Navigate to={isAuthenticated ? '/chat' : '/login'} />;
 };
 
 export default App;
