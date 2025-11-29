@@ -16,9 +16,6 @@ public class KanbanHub : Hub
         _context = context;
     }
 
-    /// <summary>
-    /// Agrega al usuario conectado a un grupo específico de chat.
-    /// </summary>
     /// <param name="groupId">ID del grupo/sala al que se unirá el usuario</param>
     public async Task JoinGroup(string groupId)
     {
@@ -34,10 +31,6 @@ public class KanbanHub : Hub
 
     // Alias para mantener compatibilidad si el frontend aún llama a JoinBoard
     public Task JoinBoard(string boardId) => JoinGroup(boardId);
-
-    /// <summary>
-    /// Remueve al usuario de un grupo de chat.
-    /// </summary>
     public async Task LeaveGroup(string groupId)
     {
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupId);
@@ -53,9 +46,6 @@ public class KanbanHub : Hub
     // Alias de compatibilidad
     public Task LeaveBoard(string boardId) => LeaveGroup(boardId);
 
-    /// <summary>
-    /// Envía un mensaje a un grupo y lo persiste en base de datos.
-    /// </summary>
     public async Task SendMessage(Guid groupId, string content)
     {
         if (string.IsNullOrWhiteSpace(content))
@@ -95,9 +85,6 @@ public class KanbanHub : Hub
             .SendAsync("ReceiveMessage", message);
     }
 
-    /// <summary>
-    /// Notifica que un usuario está escribiendo en un grupo.
-    /// </summary>
     public async Task Typing(Guid groupId)
     {
         var senderName =
